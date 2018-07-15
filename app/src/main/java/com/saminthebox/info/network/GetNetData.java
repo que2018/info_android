@@ -1,5 +1,7 @@
 package com.saminthebox.info.network;
 
+import android.util.Log;
+
 import java.util.HashMap;
 
 import org.apache.http.HttpResponse;
@@ -31,7 +33,10 @@ public class GetNetData {
 			int httpCode = response.getStatusLine().getStatusCode();
 			
 			if (httpCode == STATS.HTTP_OK) {
-                String result = EntityUtils.toString(response.getEntity(), "UTF-8");		
+                String result = EntityUtils.toString(response.getEntity(), "UTF-8");
+
+                Log.d("get_net_data", result);
+
 				JSONObject data = new JSONObject(result);
 
 				map.put("http_code", httpCode);

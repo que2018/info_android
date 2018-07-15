@@ -1,72 +1,87 @@
 package com.saminthebox.info.fragment;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
-import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-
-import com.saminthebox.info.main.LoginActivity;
-import com.daimajia.slider.library.Animations.DescriptionAnimation;
-import com.daimajia.slider.library.SliderLayout;
-import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
-import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import android.widget.ListView;
 
 import com.saminthebox.info.R;
+import com.saminthebox.info.adapter.TopNewsAdapter;
+import com.saminthebox.info.constant.ADDR;
+import com.saminthebox.info.database.model.News;
+import com.saminthebox.info.network.GetNetData;
 
-public class HomeFragment extends Fragment implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
+public class HomeFragment extends Fragment {
 
-	private SliderLayout sliderShow;
+    private ListView topNewsList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
+	} 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, null);
 
-		sliderShow = rootView.findViewById(R.id.slider_show);
-
-        //sliders
-		ArrayList<Integer> slideList = new ArrayList<>();
-		slideList.add(R.drawable.slide1);
-		slideList.add(R.drawable.slide2);
-		slideList.add(R.drawable.slide3);
-		slideList.add(R.drawable.slide4);
-
-		for(int i = 0; i < slideList.size(); i++) {
-			DefaultSliderView sliderView = new DefaultSliderView(getActivity());
-			sliderView.image(slideList.get(i));
-            sliderView.setScaleType(BaseSliderView.ScaleType.Fit);
-				
-           sliderShow.addSlider(sliderView);
-		}
+		topNewsList = rootView.findViewById(R.id.top_news_list);
 		
-        sliderShow.setPresetTransformer(SliderLayout.Transformer.Accordion);
-        sliderShow.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-        sliderShow.setCustomAnimation(new DescriptionAnimation());
-        sliderShow.setDuration(4000);
-        sliderShow.addOnPageChangeListener(this);
-
+		TopNewsTask topNewsTask = new TopNewsTask();
+        topNewsTask.execute();
+		
         return rootView;
     }
-    
-    @Override
-    public void onSliderClick(BaseSliderView slider) {}
-    
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
-    
-    @Override
-    public void onPageSelected(int position) {}
-    
-    @Override
-    public void onPageScrollStateChanged(int state) {}
+	
+	class TopNewsTask extends AsyncTask<Void, Void, Void> {
+
+        private JSONObject outdata;
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            outdata = GetNetData.getResult(ADDR.TOP_NEWS);
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void v) {
+            try {
+                JSONObject data = (JSONObject)outdata.get("data");
+
+                JSONArray topNewsesJson = data.getJSONArray("top_newses");
+
+                ArrayList<News> newses = new ArrayList<News>();
+
+                for (int i = 0; i < topNewsesJson.length(); i++) {
+                    JSONObject newsJson = (JSONObject)topNewsesJson.get(i);
+
+                    String title = newsJson.getString("title");
+                    String imageUrl = newsJson.getString("image_url");
+                    String description = newsJson.getString("description");
+
+                    News news = new News();
+                    news.setTitle(title);
+                    news.setImageUrl(imageUrl);
+                    news.setDescription(description);
+
+                    newses.add(news);
+                }
+
+                TopNewsAdapter topNewsAdapter = new TopNewsAdapter(getActivity(), newses);
+                topNewsList.setAdapter(topNewsAdapter);
+
+            } catch(JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
