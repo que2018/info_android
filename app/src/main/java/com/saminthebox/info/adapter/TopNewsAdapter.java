@@ -52,7 +52,7 @@ public class TopNewsAdapter extends BaseAdapter {
         String description = news.getDescription();
 
         titleText.setText(title);
-        descriptionView.setText(description);
+        //descriptionView.setText(description);
 		
         return news1View;
     }

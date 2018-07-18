@@ -32,4 +32,5 @@ dependencies {
     implementation 'com.nineoldandroids:library:2.4.0'
     implementation 'com.daimajia.slider:library:1.1.5@aar'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+    implementation 'com.yalantis:phoenix:1.2.3'
 }

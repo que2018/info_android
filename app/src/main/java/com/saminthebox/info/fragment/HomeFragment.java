@@ -19,22 +19,38 @@ import com.saminthebox.info.adapter.TopNewsAdapter;
 import com.saminthebox.info.constant.ADDR;
 import com.saminthebox.info.database.model.News;
 import com.saminthebox.info.network.GetNetData;
+import com.yalantis.phoenix.PullToRefreshView;
 
 public class HomeFragment extends Fragment {
 
     private ListView topNewsList;
+    private PullToRefreshView pullToRefreshView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-	} 
+	}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, null);
 
 		topNewsList = rootView.findViewById(R.id.top_news_list);
-		
+
+        pullToRefreshView = rootView.findViewById(R.id.pull_to_refresh);
+
+        pullToRefreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                pullToRefreshView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        pullToRefreshView.setRefreshing(false);
+                    }
+                }, 1000);
+            }
+        });
+
 		TopNewsTask topNewsTask = new TopNewsTask();
         topNewsTask.execute();
 		
