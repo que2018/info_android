@@ -9,10 +9,13 @@ import java.util.ArrayList;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ListView;
+import android.widget.ScrollView;
 
 import com.saminthebox.info.R;
 import com.saminthebox.info.adapter.TopNewsAdapter;
@@ -23,6 +26,7 @@ import com.yalantis.phoenix.PullToRefreshView;
 
 public class HomeFragment extends Fragment {
 
+    private ScrollView scrollWrapView;
     private ListView topNewsList;
     private PullToRefreshView pullToRefreshView;
 
@@ -35,11 +39,13 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, null);
 
-		topNewsList = rootView.findViewById(R.id.top_news_list);
+        scrollWrapView = rootView.findViewById(R.id.scroll_wrap);
+        topNewsList = rootView.findViewById(R.id.top_news_list);
 
         pullToRefreshView = rootView.findViewById(R.id.pull_to_refresh);
+		pullToRefreshView.setRefreshing(false);
 
-        pullToRefreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
+       /*  pullToRefreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 pullToRefreshView.postDelayed(new Runnable() {
@@ -48,6 +54,16 @@ public class HomeFragment extends Fragment {
                         pullToRefreshView.setRefreshing(false);
                     }
                 }, 1000);
+            }
+        }); */
+
+        scrollWrapView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged() {
+                int scrollY = scrollWrapView.getScrollY();
+                int scrollX = scrollWrapView.getScrollX();
+
+                Log.d("home framgnet", "it is scrolling ....");
             }
         });
 
