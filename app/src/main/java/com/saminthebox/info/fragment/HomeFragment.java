@@ -13,22 +13,23 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ListView;
 import android.widget.ScrollView;
+
+import com.baoyz.widget.PullRefreshLayout;
 
 import com.saminthebox.info.R;
 import com.saminthebox.info.adapter.TopNewsAdapter;
 import com.saminthebox.info.constant.ADDR;
+import com.saminthebox.info.customview.ThreePictureNewsLayout;
 import com.saminthebox.info.database.model.News;
 import com.saminthebox.info.network.GetNetData;
-import com.yalantis.phoenix.PullToRefreshView;
 
 public class HomeFragment extends Fragment {
 
-    private ScrollView scrollWrapView;
     private ListView topNewsList;
-    private PullToRefreshView pullToRefreshView;
+    private ThreePictureNewsLayout threePictureNewsLayout;
+    private PullRefreshLayout pullRefreshLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,57 +40,43 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, null);
 
-        scrollWrapView = rootView.findViewById(R.id.scroll_wrap);
         topNewsList = rootView.findViewById(R.id.top_news_list);
+        threePictureNewsLayout = rootView.findViewById(R.id.three_picture_news);
 
-        pullToRefreshView = rootView.findViewById(R.id.pull_to_refresh);
-		pullToRefreshView.setRefreshing(false);
+        pullRefreshLayout = rootView.findViewById(R.id.pull_refresh);
 
-       /*  pullToRefreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
+        pullRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                pullToRefreshView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        pullToRefreshView.setRefreshing(false);
-                    }
-                }, 1000);
-            }
-        }); */
-
-        scrollWrapView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-            @Override
-            public void onScrollChanged() {
-                int scrollY = scrollWrapView.getScrollY();
-                int scrollX = scrollWrapView.getScrollX();
-
-                Log.d("home framgnet", "it is scrolling ....");
+                TopTask topTask = new TopTask();
+                topTask.execute();
             }
         });
 
-		TopNewsTask topNewsTask = new TopNewsTask();
-        topNewsTask.execute();
+        TopTask topTask = new TopTask();
+        topTask.execute();
 		
         return rootView;
     }
 	
-	class TopNewsTask extends AsyncTask<Void, Void, Void> {
+	class TopTask extends AsyncTask<Void, Void, Void> {
 
         private JSONObject outdata;
 
         @Override
         protected Void doInBackground(Void... params) {
             outdata = GetNetData.getResult(ADDR.TOP_NEWS);
-
+            
             return null;
         }
 
         @Override
         protected void onPostExecute(Void v) {
             try {
-                JSONObject data = (JSONObject)outdata.get("data");
+                JSONObject dataJson = (JSONObject)outdata.get("data");
+                JSONObject topJson = (JSONObject)dataJson.get("top");
 
-                JSONArray topNewsesJson = data.getJSONArray("top_newses");
+                JSONArray topNewsesJson = topJson.getJSONArray("newses");
 
                 ArrayList<News> newses = new ArrayList<News>();
 
@@ -98,18 +85,29 @@ public class HomeFragment extends Fragment {
 
                     String title = newsJson.getString("title");
                     String imageUrl = newsJson.getString("image_url");
-                    String description = newsJson.getString("description");
 
                     News news = new News();
                     news.setTitle(title);
                     news.setImageUrl(imageUrl);
-                    news.setDescription(description);
 
                     newses.add(news);
                 }
 
                 TopNewsAdapter topNewsAdapter = new TopNewsAdapter(getActivity(), newses);
                 topNewsList.setAdapter(topNewsAdapter);
+
+                JSONObject threePictureNewsJson = (JSONObject)topJson.get("three_picture_news");
+                String title = threePictureNewsJson.getString("title");
+                String image1Url = threePictureNewsJson.getString("image1_url");
+                String image2Url = threePictureNewsJson.getString("image2_url");
+                String image3Url = threePictureNewsJson.getString("image3_url");
+
+                threePictureNewsLayout.setTitle(title);
+                threePictureNewsLayout.setImage1(image1Url);
+                threePictureNewsLayout.setImage2(image2Url);
+                threePictureNewsLayout.setImage3(image3Url);
+
+                pullRefreshLayout.setRefreshing(false);
 
             } catch(JSONException e) {
                 e.printStackTrace();

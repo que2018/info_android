@@ -1,7 +1,5 @@
 package com.saminthebox.info.customview;
 
-import java.util.HashMap;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;

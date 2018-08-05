@@ -1,35 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.yalantis.phoenix.PullToRefreshView
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/pull_to_refresh"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent">
-
-	<ScrollView
-		android:id="@+id/scroll_wrap"
-		android:layout_width="fill_parent"
-		android:layout_height="match_parent"
-		android:fillViewport="true">
+	android:layout_height="match_parent"
+	android:background="#0E2145">
 	
-		<LinearLayout
-			android:orientation="vertical"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent">
+	<com.baoyz.widget.PullRefreshLayout
+		android:id="@+id/pull_refresh"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
 
+		<ScrollView
+			android:id="@+id/scroll_wrap"
+			android:layout_width="fill_parent"
+			android:layout_height="match_parent"
+			android:fillViewport="true">
 		
-			<ListView
-				android:id="@+id/top_news_list"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:divider="@null"
-				android:scrollbars="none"
-				android:dividerHeight="0dp" />
+			<LinearLayout
+				android:orientation="vertical"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
 
-		</LinearLayout>
-		
-	</ScrollView>
+			
+				<ListView
+					android:id="@+id/top_news_list"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:divider="@null"
+					android:scrollbars="none"
+					android:dividerHeight="0dp" />
 
-</com.yalantis.phoenix.PullToRefreshView>
+				<com.saminthebox.info.customview.ThreePictureNewsLayout
+					android:id="@+id/three_picture_news"
+					android:layout_width="fill_parent"
+					android:layout_height="match_parent">
+				</com.saminthebox.info.customview.ThreePictureNewsLayout>
+
+			</LinearLayout>
+
+		</ScrollView>
+
+	</com.baoyz.widget.PullRefreshLayout>
+
+</RelativeLayout>
 
 
 

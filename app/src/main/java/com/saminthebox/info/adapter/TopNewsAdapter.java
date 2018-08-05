@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.saminthebox.info.database.model.News;
 import com.saminthebox.info.R;
+import com.saminthebox.info.helper.ImageTask;
 
 public class TopNewsAdapter extends BaseAdapter {
 
@@ -50,6 +51,9 @@ public class TopNewsAdapter extends BaseAdapter {
 
 		String title = news.getTitle();
         String description = news.getDescription();
+        String imageUrl = news.getImageUrl();
+        ImageTask imageTask = new ImageTask(imageUrl, imgageView);
+        imageTask.execute();
 
         titleText.setText(title);
         //descriptionView.setText(description);
