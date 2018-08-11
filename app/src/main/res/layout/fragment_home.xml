@@ -21,20 +21,11 @@
 				android:layout_width="match_parent"
 				android:layout_height="match_parent">
 
-			
-				<ListView
-					android:id="@+id/top_news_list"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:divider="@null"
-					android:scrollbars="none"
-					android:dividerHeight="0dp" />
-
-				<com.saminthebox.info.customview.ThreePictureNewsLayout
-					android:id="@+id/three_picture_news"
+				<com.saminthebox.info.customview.TopNewsBlock
+					android:id="@+id/top_news"
 					android:layout_width="fill_parent"
 					android:layout_height="match_parent">
-				</com.saminthebox.info.customview.ThreePictureNewsLayout>
+				</com.saminthebox.info.customview.TopNewsBlock>
 
 			</LinearLayout>
 
