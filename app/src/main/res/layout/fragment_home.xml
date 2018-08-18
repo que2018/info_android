@@ -11,7 +11,7 @@
 		android:layout_height="match_parent">
 
 		<ScrollView
-			android:id="@+id/scroll_wrap"
+			android:id="@+id/scroll"
 			android:layout_width="fill_parent"
 			android:layout_height="match_parent"
 			android:fillViewport="true">
@@ -26,6 +26,24 @@
 					android:layout_width="fill_parent"
 					android:layout_height="match_parent">
 				</com.saminthebox.info.customview.TopNewsBlock>
+
+                <com.saminthebox.info.customview.TopNewsBlock
+                    android:id="@+id/top_news1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent">
+                </com.saminthebox.info.customview.TopNewsBlock>
+
+                <com.saminthebox.info.customview.TopNewsBlock
+                    android:id="@+id/top_news2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent">
+                </com.saminthebox.info.customview.TopNewsBlock>
+
+                <com.saminthebox.info.customview.TopNewsBlock
+                    android:id="@+id/top_news3"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent">
+                </com.saminthebox.info.customview.TopNewsBlock>
 
 			</LinearLayout>
 

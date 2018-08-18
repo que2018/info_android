@@ -58,6 +58,8 @@ public class TopNewsBlock extends RelativeLayout {
 
         @Override
         protected Void doInBackground(Void... params) {
+            //outdata = GetNetData.getResult(ADDR.TOP_NEWS);
+
             outdata = GetNetData.getResult(ADDR.TOP_NEWS);
 
             return null;
