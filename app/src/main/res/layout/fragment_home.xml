@@ -18,32 +18,20 @@
 		
 			<LinearLayout
 				android:orientation="vertical"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent">
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content">
 
-				<com.saminthebox.info.customview.TopNewsBlock
+				<com.saminthebox.info.customview.TopNewsWidget
 					android:id="@+id/top_news"
 					android:layout_width="fill_parent"
-					android:layout_height="match_parent">
-				</com.saminthebox.info.customview.TopNewsBlock>
+					android:layout_height="wrap_content">
+				</com.saminthebox.info.customview.TopNewsWidget>
 
-                <com.saminthebox.info.customview.TopNewsBlock
-                    android:id="@+id/top_news1"
+                <com.saminthebox.info.customview.VideoNewsWidget
+                    android:id="@+id/video_news"
                     android:layout_width="fill_parent"
-                    android:layout_height="match_parent">
-                </com.saminthebox.info.customview.TopNewsBlock>
-
-                <com.saminthebox.info.customview.TopNewsBlock
-                    android:id="@+id/top_news2"
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent">
-                </com.saminthebox.info.customview.TopNewsBlock>
-
-                <com.saminthebox.info.customview.TopNewsBlock
-                    android:id="@+id/top_news3"
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent">
-                </com.saminthebox.info.customview.TopNewsBlock>
+                    android:layout_height="wrap_content">
+                </com.saminthebox.info.customview.VideoNewsWidget>
 
 			</LinearLayout>
 
