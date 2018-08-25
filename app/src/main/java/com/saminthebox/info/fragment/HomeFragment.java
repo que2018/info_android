@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
@@ -14,9 +15,19 @@ import com.saminthebox.info.customview.TopNewsWidget;
 import com.saminthebox.info.customview.VideoNewsWidget;
 import com.saminthebox.info.R;
 
+import java.util.HashMap;
+
 public class HomeFragment extends Fragment {
 
+
+    private int pointer = 1;
+    private HashMap<Integer, View> hmap;
+    public boolean[] isLoading = {false};
+
     private ScrollView scrollView;
+
+    private LinearLayout widgetLlistView;
+
     private TopNewsWidget topNewsWidget;
     private VideoNewsWidget videoNewsWidget;
     private PullRefreshLayout pullRefreshLayout;
@@ -31,7 +42,11 @@ public class HomeFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_home, null);
 
         scrollView = rootView.findViewById(R.id.scroll);
-		topNewsWidget = rootView.findViewById(R.id.top_news);
+
+        widgetLlistView = rootView.findViewById(R.id.widget_list);
+
+
+        topNewsWidget = rootView.findViewById(R.id.top_news);
 		videoNewsWidget = rootView.findViewById(R.id.video_news);
 
 		topNewsWidget.loadData();
@@ -41,8 +56,16 @@ public class HomeFragment extends Fragment {
 			@Override
 			public void onScrollChanged() {
 				if(scrollView.getChildAt(0).getBottom() == (scrollView.getHeight() + scrollView.getScrollY())) {
-					Toast.makeText(getActivity(), "scroll to bottom", Toast.LENGTH_SHORT).show();
-				} 
+				    if(!isLoading[0]) {
+                        Toast.makeText(getActivity(), "scroll to bottom", Toast.LENGTH_SHORT).show();
+
+                        //View view = hmap.get(pointer);
+                        //view.loadData();
+                        //widgetLlistView.addView(view);
+
+                        //pointer++;
+                    }
+                }
 			}
 		});
 
@@ -55,6 +78,13 @@ public class HomeFragment extends Fragment {
             }
         });
 
+		hmap = new HashMap<Integer, View>();
+
+        hmap.put(1, new TopNewsWidget(getActivity(), isLoading));
+        hmap.put(2, new TopNewsWidget(getActivity(), isLoading));
+        hmap.put(3, new TopNewsWidget(getActivity(), isLoading));
+        hmap.put(4, new TopNewsWidget(getActivity(), isLoading));
+		
 		//pullRefreshLayout.setRefreshing(false);
 		
         return rootView;
