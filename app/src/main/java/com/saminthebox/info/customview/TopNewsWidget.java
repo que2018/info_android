@@ -32,10 +32,10 @@ public class TopNewsWidget extends RelativeLayout {
 	private ImageView nImageView2;
 	private ImageView nImageView3;
 
-    public TopNewsWidget(Context context, boolean[] isLoading) {
-		super(context);
+    public TopNewsWidget(Context context, AttributeSet attrs) {
+        super(context, attrs);
 
-		this.isLoading = isLoading;
+		//this.isLoading = isLoading;
 
 		LayoutInflater inflater = LayoutInflater.from(context);
 		View rootView = inflater.inflate(R.layout.widget_top_news, this);
@@ -124,8 +124,6 @@ public class TopNewsWidget extends RelativeLayout {
 		
 				ImageTask nImageTask3 = new ImageTask(nImage31Url, nImageView3);
                 nImageTask3.execute();
-
-                isLoading[0] = false;
 
             } catch(JSONException e) {
                 e.printStackTrace();

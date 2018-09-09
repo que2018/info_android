@@ -80,11 +80,11 @@ public class HomeFragment extends Fragment {
 
 		hmap = new HashMap<Integer, View>();
 
-        hmap.put(1, new TopNewsWidget(getActivity(), isLoading));
-        hmap.put(2, new TopNewsWidget(getActivity(), isLoading));
-        hmap.put(3, new TopNewsWidget(getActivity(), isLoading));
-        hmap.put(4, new TopNewsWidget(getActivity(), isLoading));
-		
+        //hmap.put(1, new TopNewsWidget(getActivity(), isLoading));
+        //hmap.put(2, new TopNewsWidget(getActivity(), isLoading));
+        //hmap.put(3, new TopNewsWidget(getActivity(), isLoading));
+        //hmap.put(4, new TopNewsWidget(getActivity(), isLoading));
+
 		//pullRefreshLayout.setRefreshing(false);
 		
         return rootView;
